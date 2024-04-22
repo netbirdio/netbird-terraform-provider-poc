@@ -1,0 +1,142 @@
+{
+	"provider": {
+		"name": "netbird"
+	},
+	"resources": [
+		{
+			"name": "setup_key",
+			"schema": {
+				"attributes": [
+					{
+						"name": "auto_groups",
+						"list": {
+							"computed_optional_required": "required",
+							"element_type": {
+								"string": {}
+							},
+							"description": "List of group IDs to auto-assign to peers registered with this key"
+						}
+					},
+					{
+						"name": "ephemeral",
+						"bool": {
+							"computed_optional_required": "computed_optional",
+							"description": "Indicate that the peer will be ephemeral or not"
+						}
+					},
+					{
+						"name": "expires_in",
+						"int64": {
+							"computed_optional_required": "required",
+							"description": "Expiration time in seconds",
+							"validators": [
+								{
+									"custom": {
+										"imports": [
+											{
+												"path": "github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
+											}
+										],
+										"schema_definition": "int64validator.Between(86400, 31536000)"
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "name",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "Setup Key name"
+						}
+					},
+					{
+						"name": "revoked",
+						"bool": {
+							"computed_optional_required": "required",
+							"description": "Setup key revocation status"
+						}
+					},
+					{
+						"name": "type",
+						"string": {
+							"computed_optional_required": "required",
+							"description": "Setup key type, one-off for single time usage and reusable"
+						}
+					},
+					{
+						"name": "usage_limit",
+						"int64": {
+							"computed_optional_required": "required",
+							"description": "A number of times this key can be used. The value of 0 indicates the unlimited usage."
+						}
+					},
+					{
+						"name": "expires",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "Setup Key expiration date"
+						}
+					},
+					{
+						"name": "id",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "Setup Key ID"
+						}
+					},
+					{
+						"name": "key",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "Setup Key value"
+						}
+					},
+					{
+						"name": "last_used",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "Setup key last usage date"
+						}
+					},
+					{
+						"name": "state",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "Setup key status, \"valid\", \"overused\",\"expired\" or \"revoked\""
+						}
+					},
+					{
+						"name": "updated_at",
+						"string": {
+							"computed_optional_required": "computed",
+							"description": "Setup key last update date"
+						}
+					},
+					{
+						"name": "used_times",
+						"int64": {
+							"computed_optional_required": "computed",
+							"description": "Usage count of setup key"
+						}
+					},
+					{
+						"name": "valid",
+						"bool": {
+							"computed_optional_required": "computed",
+							"description": "Setup key validity status"
+						}
+					},
+					{
+						"name": "key_id",
+						"string": {
+							"computed_optional_required": "computed_optional",
+							"description": "The unique identifier of a setup key"
+						}
+					}
+				]
+			}
+		}
+	],
+	"version": "0.1"
+}

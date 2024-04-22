@@ -1,0 +1,21 @@
+provider:
+  name: netbird
+
+resources:
+  setup_key:
+    create:
+      path: /api/setup-keys
+      method: POST
+    read:
+      path: /api/setup-keys/{keyId}
+      method: GET
+    update:
+      path: /api/setup-keys/{keyId}
+      method: PUT
+    delete:
+      path: /api/setup-keys/{keyId}
+      method: DELETE
+    schemas:
+      attributes:
+        aliases:
+          keyId: id
