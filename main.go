@@ -18,7 +18,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/NetBird/netbird",
+		Address: "github.com/netbirdio/netbird",
 		Debug:   debug,
 	}
 
