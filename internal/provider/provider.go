@@ -26,9 +26,8 @@ type netbirdProvider struct {
 
 // NetbirdProviderModel describes the provider data model.
 type NetbirdProviderModel struct {
-	ServerURL  types.String `tfsdk:"server_url"`
-	BearerAuth types.String `tfsdk:"bearer_auth"`
-	TokenAuth  types.String `tfsdk:"token_auth"`
+	ServerURL types.String `tfsdk:"server_url"`
+	TokenAuth types.String `tfsdk:"token_auth"`
 }
 
 func (p *netbirdProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
@@ -40,12 +39,8 @@ func (p *netbirdProvider) Schema(ctx context.Context, req provider.SchemaRequest
 				Optional:            true,
 				Required:            false,
 			},
-			"bearer_auth": schema.StringAttribute{
-				Optional:  true,
-				Sensitive: true,
-			},
 			"token_auth": schema.StringAttribute{
-				Optional:  true,
+				Required:  true,
 				Sensitive: true,
 			},
 		},
@@ -66,25 +61,8 @@ func (p *netbirdProvider) Configure(ctx context.Context, req provider.ConfigureR
 		serverURL = "https://api.netbird.io"
 	}
 
-	bearerAuth := new(string)
-	if !data.BearerAuth.IsUnknown() && !data.BearerAuth.IsNull() {
-		*bearerAuth = data.BearerAuth.ValueString()
-	} else {
-		bearerAuth = nil
-	}
-	tokenAuth := new(string)
-	if !data.TokenAuth.IsUnknown() && !data.TokenAuth.IsNull() {
-		*tokenAuth = data.TokenAuth.ValueString()
-	} else {
-		tokenAuth = nil
-	}
-
 	addRequestAuth := func(ctx context.Context, req *http.Request) error {
-		if bearerAuth != nil {
-			req.Header.Set("Authorization", "Bearer "+*bearerAuth)
-		} else if tokenAuth != nil {
-			req.Header.Set("Authorization", "Token "+*tokenAuth)
-		}
+		req.Header.Set("Authorization", "Token "+data.TokenAuth.ValueString())
 		return nil
 	}
 	client, err := sdk.NewClientWithResponses(serverURL, sdk.WithRequestEditorFn(addRequestAuth))
